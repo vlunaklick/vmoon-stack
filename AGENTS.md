@@ -16,6 +16,7 @@ Instructions for agents working on this repo (vmoon-stack itself, not a job that
 - Skill names are kebab-case and match the directory name exactly. Names must be unique across `skills/` and `work/skills/`. `scripts/check.sh` enforces both.
 - Keep `SKILL.md` short, under about 150 lines. Put long reference material in `references/*.md` inside the skill directory and link to it.
 - Run `scripts/check.sh` before finishing any change. Fix everything it reports.
+- Commit messages are always in English.
 - After adding a skill, run `scripts/install.sh` so both tools pick it up.
 
 ## Session mandate
