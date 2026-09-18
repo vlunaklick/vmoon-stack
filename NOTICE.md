@@ -1,2 +1,5 @@
-Everything under `skills/` except `vmoon-mode`, `new-skill`, and `work-context`, plus everything under `agents/`, comes from pstack by Lauren Tan (MIT, see `LICENSE-pstack`), taken from [ericlitman/open-pstack](https://github.com/ericlitman/open-pstack) at release 1.4.1 (Cursor pstack 0.15.1).
-Changes made here: the `pstack:` plugin namespace was removed from skill references because this repo installs skills as plain directories, not as a plugin.
+Third-party material in this repo.
+
+Everything under `skills/` except `new-skill` and `work-context`, plus everything under `agents/`, derives from pstack by Lauren Tan, MIT licensed (see `LICENSE-upstream`), as published by ericlitman/open-pstack 1.4.1 (Cursor pstack 0.15.1).
+
+Changes made here: the project was renamed to vstack and its author persona to vmoon throughout file names and contents, and the plugin namespace was removed because skills install as plain directories. This file is the only place the original names appear.

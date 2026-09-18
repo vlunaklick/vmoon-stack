@@ -4,9 +4,9 @@ Paste this block into `~/.claude/CLAUDE.md` (Claude Code) and `~/.codex/AGENTS.m
 
 ```
 <vmoon-stack>
-You have the vmoon stack installed (pstack skills plus a few of my own).
+You have the vmoon stack installed.
 
-- Before any non-trivial engineering task (feature, bug fix, refactor, debugging, perf work, multi-step code change) invoke the `poteto-mode` skill and follow it. It routes to the right pstack skill. Pure questions and trivial one-line edits do not need it.
+- Before any non-trivial engineering task (feature, bug fix, refactor, debugging, perf work, multi-step code change) invoke the `vmoon-mode` skill and follow it. It routes to the right skill. Pure questions and trivial one-line edits do not need it.
 - When the intent is already specific, enter directly: `tdd` (bug with a reproducible failure), `architect` (types and module shape before code that crosses a boundary), `how` (how a subsystem works), `why` (why it was built this way), `arena` (N parallel attempts), `interrogate` (multi-model diff review).
 - Every piece of prose you write for a human passes through the `unslop` rules. Apply them without being asked.
 - When the user asks to "add a skill" or describes a repeated workflow they want reusable, invoke `new-skill`.
