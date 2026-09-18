@@ -25,6 +25,19 @@ link() { # link <src-dir>
 }
 
 for s in "$root"/skills/*/; do link "${s%/}"; done
+
+# Agents are Claude Code only. Codex ignores them.
+mkdir -p "$HOME/.claude/agents"
+for a in "$root"/agents/*.md; do
+  dst="$HOME/.claude/agents/$(basename "$a")"
+  if [[ -L "$dst" ]]; then
+    [[ "$(readlink "$dst")" == "$root"/* ]] || { echo "skip $dst: symlink to something else"; continue; }
+    rm "$dst"
+  elif [[ -e "$dst" ]]; then
+    echo "skip $dst: real file exists"; continue
+  fi
+  ln -s "$a" "$dst"; echo "linked $dst"
+done
 if [[ $with_work -eq 1 ]]; then
   for s in "$root"/work/skills/*/; do [[ -d "$s" ]] && link "${s%/}"; done
 fi

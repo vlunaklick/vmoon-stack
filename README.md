@@ -6,7 +6,8 @@ Esta inspirado en [ericlitman/open-pstack](https://github.com/ericlitman/open-ps
 
 ## Que es
 
-- `skills/`: skills base que uso todos los dias, en cualquier proyecto. Portables, sin nada especifico de un trabajo.
+- `skills/`: skills base que uso todos los dias, en cualquier proyecto. Portables, sin nada especifico de un trabajo. Incluye el arbol completo de [pstack](https://github.com/cursor/plugins/tree/main/pstack) (via open-pstack, MIT) mas `vmoon-mode` y `new-skill`.
+- `agents/`: subagentes de pstack (`poteto-agent`, `comment-sicko`, los `pstack-*` por modelo). Solo Claude Code; Codex no tiene archivos de agentes y los skills lo resuelven con `spawn_agent`.
 - `work/skills/`: skills especificas del trabajo actual. Arranca con una plantilla (`work-context`) y crece dentro de cada copia del repo por trabajo.
 
 Un skill vive una sola vez. Claude Code lo lee desde `~/.claude/skills/<nombre>` y Codex desde `~/.agents/skills/<nombre>`; `scripts/install.sh` crea esos symlinks apuntando a este repo.
@@ -15,10 +16,14 @@ Un skill vive una sola vez. Claude Code lo lee desde `~/.claude/skills/<nombre>`
 
 ```
 .
-├── skills/                      base, portable
-│   ├── new-skill/               scaffoldea un skill nuevo en el lugar correcto
+├── skills/                      base, portable (56 skills)
+│   ├── poteto-mode/             punto de entrada de pstack, con playbooks y scripts
+│   ├── architect/ arena/ how/ why/ interrogate/ tdd/ swarm/ ...
+│   ├── principle-*/             los 23 principios de pstack
 │   ├── unslop/                  saca las marcas de texto generado por IA
-│   └── vmoon-mode/              punto de entrada: decide que skill aplica
+│   ├── new-skill/               scaffoldea un skill nuevo en el lugar correcto
+│   └── vmoon-mode/              atajo propio: decide entre poteto-mode, work-context y unslop
+├── agents/                      subagentes de pstack, solo Claude Code
 ├── work/skills/                 del trabajo actual
 │   └── work-context/            plantilla con las convenciones del laburo
 ├── scripts/
@@ -51,10 +56,10 @@ Para desinstalar: `scripts/uninstall.sh`.
 
 ## Como se invocan los skills
 
-- Claude Code: `/unslop`, `/new-skill`, `/vmoon-mode`. El formato es `/<nombre>`.
-- Codex: por nombre en el prompt, por ejemplo "usa unslop en este texto".
+- Claude Code: `/poteto-mode`, `/architect`, `/unslop`. El formato es `/<nombre>`, sin el prefijo `pstack:` que usa el plugin original.
+- Codex: por nombre en el prompt, por ejemplo "usa poteto-mode para esto". Para que los skills que despachan subagentes funcionen, Codex necesita `[features] multi_agent = true` en `~/.codex/config.toml`.
 
-`vmoon-mode` es el punto de entrada: lee la tarea y decide que skill aplica antes de hacer el trabajo.
+`poteto-mode` es el punto de entrada para cualquier tarea de codigo no trivial. `vmoon-mode` es un atajo mio que suma `work-context` y `unslop` a esa decision.
 
 ## Flujo por trabajo
 

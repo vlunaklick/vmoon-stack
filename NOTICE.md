@@ -1,3 +1,2 @@
-`skills/unslop` derives from the `unslop` skill in pstack by Lauren Tan, licensed MIT.
-It reached this repo via [ericlitman/open-pstack](https://github.com/ericlitman/open-pstack).
-See that project for the original source and license text.
+Everything under `skills/` except `vmoon-mode`, `new-skill`, and `work-context`, plus everything under `agents/`, comes from pstack by Lauren Tan (MIT, see `LICENSE-pstack`), taken from [ericlitman/open-pstack](https://github.com/ericlitman/open-pstack) at release 1.4.1 (Cursor pstack 0.15.1).
+Changes made here: the `pstack:` plugin namespace was removed from skill references because this repo installs skills as plain directories, not as a plugin.

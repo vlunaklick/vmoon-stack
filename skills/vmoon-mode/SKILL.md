@@ -15,6 +15,7 @@ Route the task to the right skill, then follow that skill. Do not do the work in
 
 | Task | Skill |
 |------|-------|
+| Non-trivial code change, bug, refactor, perf, investigation | `poteto-mode` (it routes to the rest of pstack) |
 | Any prose a human will read | `unslop`, applied to the final text |
 | A repeated workflow the user wants reusable | `new-skill` |
 | Work-specific task with a matching skill under `work/skills` | that skill |
