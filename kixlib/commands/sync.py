@@ -4,7 +4,7 @@ from pathlib import Path
 import shutil
 import subprocess
 
-from ..catalog import discover, index_text
+from ..catalog import discover, discover_commands, index_text
 
 
 def register(commands):
@@ -13,6 +13,7 @@ def register(commands):
     parser.add_argument('--dry-run', action='store_true', help='Preview changes without writing or installing anything.')
     parser.add_argument('--replace', action='store_true', help='Back up conflicting entries before replacing them.')
     parser.add_argument('--user-home', type=Path, default=Path.home(), help='Destination user directory; useful for an isolated preview.')
+    parser.add_argument('--legacy-codex-prompts', action='store_true', help='Also link commands/codex/*.md to legacy ~/.codex/prompts; prefer skills on current Codex.')
     parser.set_defaults(run=run)
 
 
@@ -22,7 +23,7 @@ def source_of(path):
 
 def owned(path, root):
     source = source_of(path)
-    return source is not None and any(source.is_relative_to(root / prefix) for prefix in ('skills', 'agents', 'plugins/vmoon-ai', 'vstack', 'specialties'))
+    return source is not None and any(source.is_relative_to(root / prefix) for prefix in ('skills', 'agents', 'plugins/vmoon-ai', 'vstack', 'specialties', 'commands'))
 
 
 def dependencies(root):
@@ -55,6 +56,21 @@ def run(args, root):
         agents = home / '.claude/agents'
         destinations.append(agents)
         links.extend((path, agents / path.name) for path in sorted((root / 'vstack/agents').glob('*.md')))
+    for host, destination in (('claude', '.claude/commands'), ('codex', '.codex/prompts')):
+        if args.target not in ('both', host):
+            continue
+        commands = discover_commands(root, host)
+        if host == 'codex' and not args.legacy_codex_prompts:
+            if commands:
+                print('Skipping legacy Codex prompts; use skills or opt in with --legacy-codex-prompts.')
+            continue
+        if host == 'claude':
+            overlap = sorted({path.stem for path in commands} & {skill.name for skill in skills})
+            if overlap:
+                raise ValueError('Claude command names conflict with skills: ' + ', '.join(overlap))
+        folder = home / destination
+        destinations.append(folder)
+        links.extend((path, folder / path.name) for path in commands)
     links.append((root / 'kix', home / '.local/bin/kix'))
     conflicts = [target for source, target in links if os.path.lexists(target) and not owned(target, root) and source_of(target) != source]
     wanted = {target for _, target in links}

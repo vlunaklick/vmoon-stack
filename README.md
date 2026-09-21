@@ -10,6 +10,10 @@ vstack/
     how/
     ...
   agents/
+skills/           # skills independientes, como ponytail
+commands/
+  claude/
+  codex/          # prompts legacy, opt-in
 specialties/
   INDEX.md
   frontend/
@@ -47,6 +51,12 @@ kix sync --replace             # respaldar conflictos y reemplazarlos
 `./install.sh` sigue funcionando como alias de `./kix sync`. Los conflictos se respaldan en `~/.config/kix/backups/`. Sin `--replace`, un conflicto detiene la operación antes de cambiar enlaces. Al borrar o renombrar una skill, sync elimina solo enlaces obsoletos que apuntan a esta copia. No borra skills de otras fuentes ni configuraciones de modelos. Una copia movida puede requerir `--replace` para respaldar enlaces a la ubicación anterior.
 
 La sincronización es local: no es git pull, no descarga skills ni sincroniza notas entre equipos. Si cambian las dependencias npm, las reinstala; de lo contrario las reutiliza. Para nuevos comandos de terminal, agregá un módulo con `register(commands)` y `run(args, root)` y registralo en `kixlib/cli.py`.
+
+## Skills independientes y comandos
+
+Copiá skills independientes en `skills/<nombre>/SKILL.md`, incluidas sus referencias y scripts. `kix sync` las descubre junto con las de vstack y las especialidades, y detecta nombres duplicados entre los tres grupos.
+
+Los comandos Markdown propios de Claude van en `commands/claude/`. Los prompts antiguos de Codex van en `commands/codex/` y requieren `kix sync --legacy-codex-prompts`. En Codex actual preferí skills. No se traduce automáticamente un comando de una herramienta a otra. Detalles en [commands/README.md](commands/README.md).
 
 ## Agregar especialidades y skills
 

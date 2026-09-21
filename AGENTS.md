@@ -4,6 +4,8 @@ This is a local skills collection shared by Claude Code and Codex, not a plugin.
 
 - `vstack/skills/<name>/SKILL.md`: canonical base skills and their resources.
 - `vstack/agents/`: Claude agent definitions; Codex uses native delegation.
+- `skills/<name>/SKILL.md`: independent skills installed into both hosts.
+- `commands/claude/*.md`: Claude user commands; `commands/codex/*.md`: legacy prompts, explicit opt-in only.
 - `specialties/<area>/<skill-name>/SKILL.md`: optional area-specific workflows and supporting skills.
 - `specialties/INDEX.md`: generated entrypoint index for vstack. Names ending in `-workflow` are indexed.
 - `kix`: terminal entrypoint. `kixlib/cli.py` registers command modules in `kixlib/commands/`.
