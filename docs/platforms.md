@@ -10,7 +10,7 @@ Skills in this repo are written once and run on both platforms. When a skill ste
 | Search (Grep/Glob) | shell `rg` or `grep` | Use `rg --files` for glob-style file listing. |
 | Fetch a URL | shell `curl` | No dedicated fetch tool; goes through the shell. |
 | Web search | `web_search` | Built-in tool, no shell needed. |
-| Skill tool / slash command | native skill loading | Codex loads skills by name from the prompt, for example "use unslop". No slash command syntax. |
+| Skill tool / slash command | native skill loading | Codex loads skills by name from the prompt, for example "use new-skill". No slash command syntax. |
 | Agent tool | `spawn_agent` | Requires `[features] multi_agent = true` in `~/.codex/config.toml`. Without it, `spawn_agent` is unavailable. |
 | Parallel agents | multiple `spawn_agent` calls | Issue several `spawn_agent` calls in the same turn to run them concurrently. |
 | Waiting on a subagent | `wait_agent` | Blocks until the named agent finishes. |
@@ -27,5 +27,5 @@ Hooks are a Claude Code feature and only apply inside plugins or `settings.json`
 
 ## Invocation syntax
 
-- Claude Code: `/<skill>`, for example `/unslop`.
-- Codex: name the skill in plain text, for example "use unslop on this text".
+- Claude Code: `/<skill>`, for example `/new-skill`.
+- Codex: name the skill in plain text, for example "use new-skill for this".

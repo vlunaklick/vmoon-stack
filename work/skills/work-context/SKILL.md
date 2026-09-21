@@ -1,6 +1,6 @@
 ---
 name: work-context
-description: Conventions of the current job (stack, repos, branching, review rules, deploy, who to ask). Read this before any code change in a work repository. Use when the user mentions the company, "how do we do X here", or when vmoon-mode routes a work task.
+description: Conventions of the current job (stack, repos, branching, review rules, deploy, who to ask). Read this before any code change in a work repository. Use when the user mentions the company, "how do we do X here".
 ---
 
 # work-context
