@@ -1,11 +1,15 @@
-# vstack
+# vstack and kix
 
-This is a local skills collection based on pstack-claude, shared by Claude Code and Codex. It is not a plugin.
+This is a local skills collection shared by Claude Code and Codex, not a plugin.
 
-- `skills/<name>/SKILL.md`: one canonical copy per skill, including its references and runtime scripts.
-- `skills/vstack/`: main workflow.
-- `skills/setup-vstack/`: host-specific model configuration by task.
-- `agents/`: Claude user agent definitions. Codex uses its native delegation tools.
-- `install.sh`: creates user-level symlinks; refuses conflicting files unless --replace preserves them in a backup.
+- `vstack/skills/<name>/SKILL.md`: canonical base skills and their resources.
+- `vstack/agents/`: Claude agent definitions; Codex uses native delegation.
+- `specialties/<area>/<skill-name>/SKILL.md`: optional area-specific workflows and supporting skills.
+- `specialties/INDEX.md`: generated entrypoint index for vstack. Names ending in `-workflow` are indexed.
+- `kix`: terminal entrypoint. `kixlib/cli.py` registers command modules in `kixlib/commands/`.
+- `kix sync`: validate/discover sources, update the index, link skills and prune only stale symlinks owned by this checkout. `--replace` backs up conflicts.
+- `install.sh`: compatibility wrapper for kix sync.
 
-Do not add plugin manifests, CI, a test suite or upstream synchronization. Keep skill names unique and matched to their folders. Preserve licenses. Follow `skills/vstack/references/local-policy.md` for workflow changes. Generic improvements through reflect/automate-me are supported; private company context remains outside this repository. Commit messages are in English.
+Keep a single copy per skill. Names must match folders and remain unique across the whole collection. A skill directory is a discovery boundary; do not nest installable skills under it. Preserve licenses. Follow `vstack/skills/vstack/references/local-policy.md` when changing workflow behavior.
+
+Do not add plugins, CI, a persistent test suite or upstream synchronization. Verify changes with targeted temporary checks. Generic reflect/automate-me improvements are supported; private company context stays outside this repository. Commit messages are in English.

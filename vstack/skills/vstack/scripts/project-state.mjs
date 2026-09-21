@@ -28,9 +28,9 @@ export function projectState(directory) {
   const configured = process.env.VSTACK_STATE_HOME || join(homedir(), 'valen', 'ai', 'projects');
   if (!isAbsolute(configured)) throw new Error('VSTACK_STATE_HOME must be absolute');
   const root = canonical(configured);
-  const plugin = canonical(resolve(dirname(fileURLToPath(import.meta.url)), '../../..'));
-  if (within(project, root) || within(identity, root) || within(plugin, root))
-    throw new Error('Project state must be outside the project, Git directory and plugin');
+  const collection = canonical(resolve(dirname(fileURLToPath(import.meta.url)), '../../../..'));
+  if (within(project, root) || within(identity, root) || within(collection, root))
+    throw new Error('Project state must be outside the project, Git directory and collection');
   const key = createHash('sha256').update(identity).digest('hex').slice(0, 20);
   const store = join(root, key);
   if (existsSync(store) && !within(root, realpathSync(store)))

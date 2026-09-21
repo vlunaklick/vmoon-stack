@@ -14,6 +14,12 @@ These skills use Claude Code tool names (the `Skill` tool, the `Agent` tool, `As
 
 Use the session's task-tracking tools for the todolist. On Claude Code these are `TaskCreate` and `TaskUpdate`, or `TodoWrite` when configured. Availability depends on the model; `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` enables them through the environment or a project's `.claude/settings.local.json` `env` block. See the [task-tool documentation](https://code.claude.com/docs/en/tools-reference#task-tool-availability). If no task-tracking tool is available, keep a `todo.md` Markdown checklist in STATE_DIR, next to the decision trail, with the playbook steps verbatim and each `skip: <reason>` line.
 
+## Specialty routing
+
+Before choosing the task playbook, read the collection's [specialty index](../../../specialties/INDEX.md). Resolve this skill's installation symlink to the canonical source directory first. The index lists only entrypoint names and descriptions, not the full supporting skills.
+
+If a specialty matches the requested work, read that workflow and the supporting skills it selects, only when relevant. Keep the generic feature/bug-fix/review playbook for execution and verification; the specialty supplies domain-specific guidance. For mixed tasks, load a specialty only for its relevant stage. If none matches or the index is absent, continue with the built-in playbook. Missing optional skills are not permission to install them. Tell the user which specialty you selected briefly.
+
 ## Non-negotiables
 
 The Principles section below grounds every trigger. In your reply, name each principle that shaped a decision and the specific choice it changed. Cite only principles whose leaf SKILL.md you read this session.
