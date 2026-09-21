@@ -1,0 +1,12 @@
+{
+  "name": "vstack-tools",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "commander": "14.0.0",
+    "tsx": "4.23.15"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

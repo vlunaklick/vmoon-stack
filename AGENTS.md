@@ -1,25 +1,11 @@
-# AGENTS.md
+# vstack
 
-Instructions for agents working on this repo.
+This is a local skills collection based on pstack-claude, shared by Claude Code and Codex. It is not a plugin.
 
-## Layout
+- `skills/<name>/SKILL.md`: one canonical copy per skill, including its references and runtime scripts.
+- `skills/vstack/`: main workflow.
+- `skills/setup-vstack/`: host-specific model configuration by task.
+- `agents/`: Claude user agent definitions. Codex uses its native delegation tools.
+- `install.sh`: creates user-level symlinks; refuses conflicting files unless --replace preserves them in a backup.
 
-- `skills/<group>/<name>/SKILL.md`: one skill per directory, grouped by purpose. Groups are for humans; the tools see a flat list.
-- `install.sh`: links every skill flat into `~/.claude/skills` and `~/.agents/skills`. Run after adding or moving a skill.
-
-## Groups
-
-- `writing/`: prose for humans.
-- `code-quality/`: cleaning and reviewing code.
-- `git/`: commits, branches, PRs, CI.
-- `principles/`: one-page rules with the condition that triggers each.
-- `workflows/`: multi-step playbooks (architect, tdd, arena, swarm).
-- `understand/`: explaining existing code (how, why, teach).
-
-## Rules
-
-- A skill lives once. Never one copy per platform.
-- Skill names are kebab-case, match the directory name, and are unique across all groups.
-- Keep `SKILL.md` short. Long reference material goes in `references/` inside the skill directory.
-- Skills that mention a Claude Code tool with no Codex equivalent say inline what to do on Codex.
-- Commit messages are always in English.
+Do not add plugin manifests, CI, a test suite or upstream synchronization. Keep skill names unique and matched to their folders. Preserve licenses. Follow `skills/vstack/references/local-policy.md` for workflow changes. Generic improvements through reflect/automate-me are supported; private company context remains outside this repository. Commit messages are in English.
