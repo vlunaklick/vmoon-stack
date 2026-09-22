@@ -1,1 +1,0 @@
-"""Local skill collection commands."""

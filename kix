@@ -1,5 +1,228 @@
-#!/usr/bin/env python3
-from kixlib.cli import main
+#!/usr/bin/env node
+import { spawnSync } from 'node:child_process';
+import { existsSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { dirname, join } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { parseArgs } from 'node:util';
+import { KixError } from './kixlib/core/errors.mjs';
 
-if __name__ == '__main__':
-    raise SystemExit(main())
+const rawArgs = process.argv.slice(2);
+const separator = rawArgs.indexOf('--');
+const json = rawArgs.slice(0, separator < 0 ? undefined : separator).includes('--json');
+const args = [...rawArgs];
+while (args[0] === '--json' || args[0] === '--no-json') args.shift();
+const requestedCommand = args[0] && !args[0].startsWith('-') ? args[0] : null;
+let bootstrap;
+
+process.stdout.on('error', error => {
+  if (error.code === 'EPIPE') process.exit(0);
+  throw error;
+});
+
+function parseInit(args) {
+  let parsed;
+  try {
+    parsed = parseArgs({
+      args,
+      allowPositionals: true,
+      allowNegative: true,
+      strict: true,
+      options: {
+        help: { type: 'boolean', short: 'h' },
+        json: { type: 'boolean' },
+        target: { type: 'string' },
+        'dry-run': { type: 'boolean' },
+        replace: { type: 'boolean' },
+        'user-home': { type: 'string' },
+        'legacy-codex-prompts': { type: 'boolean' },
+        shell: { type: 'string' },
+      },
+    });
+  } catch (error) {
+    throw new KixError('INVALID_ARGUMENT', error.message, { causeCode: error.code ?? null });
+  }
+  const { values, positionals } = parsed;
+  if (positionals.length > 1) throw new KixError('INVALID_ARGUMENT', 'Too many positional arguments.');
+  if (positionals.length && values.target !== undefined) {
+    throw new KixError('INVALID_ARGUMENT', 'Supply target either positionally or with --target, not both.', { field: 'target' });
+  }
+  const target = positionals[0] ?? values.target ?? 'both';
+  if (!['both', 'claude', 'codex'].includes(target)) {
+    throw new KixError('INVALID_ARGUMENT', 'target must be one of: both, claude, codex.', { field: 'target', value: target });
+  }
+  if (values.shell !== undefined && !['zsh', 'bash', 'fish', 'none'].includes(values.shell)) {
+    throw new KixError('INVALID_ARGUMENT', 'shell must be one of: zsh, bash, fish, none.', { field: 'shell', value: values.shell });
+  }
+  if (values['user-home'] !== undefined && !values['user-home'].trim()) {
+    throw new KixError('INVALID_ARGUMENT', 'user-home cannot be empty.', { field: 'user-home' });
+  }
+  return { ...values, target, 'user-home': values['user-home'] ?? homedir() };
+}
+
+function initHelp() {
+  return [
+    'Usage: kix init [both|claude|codex] [options]',
+    'Preparar esta máquina: dependencias npm, skills y acceso a kix desde la terminal.',
+    '',
+    'Requiere Node.js 22+ y npm instalados. No instala herramientas del sistema.',
+    '',
+    '  [both|claude|codex]        Herramientas a configurar. Por defecto: both.',
+    '  --target <target>         Alternativa al destino posicional.',
+    '  --dry-run                 Mostrar cambios sin escribir ni ejecutar npm.',
+    '  --replace                 Respaldar entradas en conflicto antes de reemplazarlas.',
+    '  --user-home <path>        Carpeta de usuario para los enlaces y la configuración.',
+    '  --legacy-codex-prompts    Enlazar commands/codex en .codex/prompts.',
+    '  --shell <shell>           Configurar zsh, bash o fish; none omite PATH.',
+    '  --json                    Devolver un resultado JSON para automatizaciones.',
+    '  --no-<flag>               Desactivar una opción booleana, como --no-replace.',
+    '  -h, --help                Mostrar ayuda sin instalar dependencias.',
+  ].join('\n');
+}
+
+function coldInitHelp() {
+  return {
+    command: 'init',
+    data: {
+      limited: true,
+      kind: 'help',
+      help: initHelp(),
+      prerequisites: { node: '>=22', npm: true },
+      inputSchema: {
+        type: 'object',
+        additionalProperties: false,
+        properties: {
+          target: { type: 'string', enum: ['both', 'claude', 'codex'], default: 'both', flag: '--target', positional: 0 },
+          'dry-run': { type: 'boolean', default: false },
+          replace: { type: 'boolean', default: false },
+          'user-home': { type: 'string', minLength: 1, pattern: '\\S', default: homedir() },
+          'legacy-codex-prompts': { type: 'boolean', default: false },
+          shell: { type: 'string', enum: ['zsh', 'bash', 'fish', 'none'] },
+        },
+      },
+    },
+  };
+}
+
+function progress(line) {
+  if (json) console.error(line);
+  else console.log(line);
+}
+
+function runtimeAvailable(root) {
+  const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+  return [...Object.keys(manifest.dependencies ?? {}), 'tsx/esm/api'].every(name => {
+    const packageName = name === 'tsx/esm/api' ? 'tsx' : name;
+    if (!existsSync(join(root, 'node_modules', packageName, 'package.json'))) return false;
+    try {
+      return existsSync(fileURLToPath(import.meta.resolve(name)));
+    } catch {
+      return false;
+    }
+  });
+}
+
+async function launch() {
+  if (Number(process.versions.node.split('.')[0]) < 22) {
+    throw new KixError('UNSUPPORTED_NODE', 'Node.js 22 or newer is required.', { required: '>=22', actual: process.versions.node });
+  }
+  const root = dirname(realpathSync(process.argv[1]));
+  const init = args[0] === 'init' ? parseInit(args.slice(1)) : undefined;
+  if (init?.help && !json) {
+    console.log(initHelp());
+    return;
+  }
+  let available = runtimeAvailable(root);
+  if (init?.help && !available) return coldInitHelp();
+  if (!json && !available && (args.length === 0 || (args.length === 1 && ['--help', '-h'].includes(args[0])))) {
+    console.log([
+      'kix · Automatizaciones personales',
+      '',
+      'Comandos: init, sync, list. Sin argumentos abre la TUI después de inicializar.',
+      'Primera ejecución: ./kix init',
+      '',
+      initHelp(),
+    ].join('\n'));
+    return;
+  }
+  if (init && !init.help) {
+    const lock = readFileSync(join(root, 'package-lock.json'));
+    const marker = join(root, 'node_modules/.kix-lock');
+    const current = available && existsSync(marker) && readFileSync(marker).equals(lock);
+    bootstrap = { root, required: !current, installed: false, status: current ? 'current' : init['dry-run'] ? 'planned' : 'installing' };
+    if (!current && init['dry-run']) {
+      progress('Se instalarían las dependencias de kix con npm ci antes de inicializar.');
+      if (!available) {
+        if (json) return {
+          command: 'init',
+          data: {
+            limited: true,
+            validated: false,
+            dryRun: true,
+            bootstrapRequired: true,
+            target: init.target,
+            userHome: init['user-home'],
+            shell: init.shell ?? null,
+            replace: init.replace ?? false,
+            legacyCodexPrompts: init['legacy-codex-prompts'] ?? false,
+            reason: 'Missing runtime dependencies prevent collection and conflict validation.',
+          },
+        };
+        console.log(`Destino: ${init.target}; carpeta de usuario: ${init['user-home']}.`);
+        console.log(`Shell: ${init.shell ?? 'detectar shell de la sesión'}; respaldar conflictos: ${init.replace ? 'sí' : 'no'}; prompts legacy: ${init['legacy-codex-prompts'] ? 'sí' : 'no'}.`);
+        console.log('Se sincronizarían las skills y el enlace .local/bin/kix; se configuraría PATH según la shell elegida.');
+        console.log('Vista previa limitada: faltan dependencias para validar la colección y sus conflictos. No se ejecutó npm ni se modificaron archivos.');
+        return;
+      }
+    } else if (!current) {
+      progress('Instalando dependencias de kix…');
+      const result = spawnSync('npm', ['ci', '--prefix', root, '--no-audit', '--no-fund'], {
+        cwd: root,
+        stdio: json ? ['ignore', process.stderr.fd, process.stderr.fd] : 'inherit',
+        env: json ? { ...process.env, NO_COLOR: '1', FORCE_COLOR: '0', npm_config_color: 'false' } : process.env,
+      });
+      if (result.error || result.status !== 0) {
+        bootstrap.status = 'failed';
+        if (result.error?.code === 'ENOENT') {
+          throw new KixError('MISSING_DEPENDENCIES', 'npm is required. Install Node.js 22+ and npm, then run kix init again.', { dependency: 'npm', stage: 'bootstrap' });
+        }
+        throw new KixError('DEPENDENCY_FAILED', 'npm dependency installation failed. Machine setup was not started.', {
+          stage: 'bootstrap', exitCode: result.status, signal: result.signal, causeCode: result.error?.code ?? null,
+        });
+      }
+      bootstrap.status = 'installed';
+      bootstrap.installed = true;
+      available = runtimeAvailable(root);
+      if (!available) {
+        throw new KixError('MISSING_DEPENDENCIES', 'npm finished but kix dependencies are still unavailable. Machine setup was not started.', { stage: 'bootstrap-validation' });
+      }
+      writeFileSync(marker, lock);
+    }
+  }
+  if (!available) {
+    throw new KixError('MISSING_DEPENDENCIES', 'Missing kix dependencies. Run ./kix init from this checkout first.', { action: './kix init', root });
+  }
+  const loader = import.meta.resolve('tsx/esm/api');
+  const { register } = await import(loader);
+  register();
+  const { main } = await import(pathToFileURL(join(root, 'kixlib/interfaces/cli.ts')).href);
+  return await main(root, args, { json });
+}
+
+try {
+  const result = await launch();
+  if (json) {
+    if (!result) throw new KixError('INTERNAL_ERROR', 'The command did not return a JSON result.');
+    console.log(JSON.stringify({ schemaVersion: 1, ok: true, command: result.command, data: result.data, ...(bootstrap ? { meta: { bootstrap } } : {}) }));
+  }
+} catch (error) {
+  if (json) {
+    const message = error instanceof Error ? error.message : String(error);
+    const code = typeof error?.code === 'string' && error.code.startsWith('ERR_PARSE_ARGS_') ? 'INVALID_ARGUMENT' : error?.code ?? 'INTERNAL_ERROR';
+    const failure = error instanceof KixError
+      ? { code: error.code, message, details: error.details }
+      : { code, message, details: { path: error?.path ?? null, syscall: error?.syscall ?? null } };
+    console.log(JSON.stringify({ schemaVersion: 1, ok: false, command: requestedCommand, error: failure, ...(bootstrap ? { meta: { bootstrap } } : {}) }));
+  } else console.error(`kix: ${error instanceof Error ? error.message : String(error)}`);
+  process.exitCode = 1;
+}

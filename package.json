@@ -1,0 +1,30 @@
+{
+  "name": "kix",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal terminal automations and skill collection manager",
+  "bin": {
+    "kix": "./kix"
+  },
+  "scripts": {
+    "start": "node ./kix",
+    "dev": "node ./kix",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "ink": "7.1.1",
+    "react": "19.2.8",
+    "tsx": "4.23.15",
+    "wrap-ansi": "10.0.2",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "@types/react": "19.2.18",
+    "typescript": "5.9.3"
+  }
+}
