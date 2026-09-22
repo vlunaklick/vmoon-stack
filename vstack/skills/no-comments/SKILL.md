@@ -3,12 +3,12 @@ name: no-comments
 description: "Spawn the comment-sicko subagent, fix accepted findings, and offer encodings for claimed constraints."
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # No comments
 
-On Codex, read the [platform mapping](../vstack/references/codex-tools.md), including its per-skill notes, before following this skill.
+On Codex, read the [platform mapping](../vmoon-mode/references/codex-tools.md), including its per-skill notes, before following this skill.
 
 Spawn comment-sicko. Act on accepted findings.
 

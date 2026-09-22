@@ -1,6 +1,6 @@
 # Especialidades
 
-Una especialidad agrega conocimientos de un área, por ejemplo frontend. Su workflow coordina las skills de esa área; vstack conserva los pasos generales de implementación y verificación.
+Una especialidad agrega conocimientos de un área, por ejemplo frontend. Su workflow coordina las skills de esa área; vmoon-mode conserva los pasos generales de implementación y verificación.
 
 ```text
 specialties/

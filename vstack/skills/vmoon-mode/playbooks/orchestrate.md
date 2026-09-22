@@ -1,6 +1,6 @@
 ### Orchestrate
 
-Resolve the driver skill through [vstack's Non-negotiables](../SKILL.md#non-negotiables).
+Resolve the driver skill through [vmoon-mode's Non-negotiables](../SKILL.md#non-negotiables).
 
 **You own the program, never the code. Author briefs, drain the queue, keep the frontier green, decide.** For a whole project handed to one standing coordinator chat: multi-day, many stacked PRs, dozens to hundreds of subagents, the human checking in twice a day instead of every five minutes. One task driven to a predicate is Autonomous run. One ambitious run needing a bespoke workflow is figure-it-out. Route here when the work outlives any single agent. Work one agent could finish inside the session's budget is not a program.
 
@@ -22,7 +22,7 @@ Depth stays at coordinator, track, worker. Author the track decomposition per pr
 
 #### Store layout
 
-Create `STATE_DIR/orchestrate/`, outside the repo and outside the session. The store has to outlive this chat: the program runs for days, a session restart is expected (see Liveness and failure), and the store is the postmortem. The session scratchpad is not a candidate, however convenient; it is session-scoped and temporary, so a restart takes the program's only state with it. Every file has exactly one writer; owners publish facts, readers aggregate at read time. Use `node vstack/skills/vstack/scripts/run.mjs orch` under the installed collection for bookkeeping, written below as `orch`, while its canonical plain TSV and JSON stay readable without the CLI.
+Create `STATE_DIR/orchestrate/`, outside the repo and outside the session. The store has to outlive this chat: the program runs for days, a session restart is expected (see Liveness and failure), and the store is the postmortem. The session scratchpad is not a candidate, however convenient; it is session-scoped and temporary, so a restart takes the program's only state with it. Every file has exactly one writer; owners publish facts, readers aggregate at read time. Use `node vstack/skills/vmoon-mode/scripts/run.mjs orch` under the installed collection for bookkeeping, written below as `orch`, while its canonical plain TSV and JSON stay readable without the CLI.
 
 - `preferences.md` is the standing-orders register: numbered lines, one constraint each (model policy, stack shape and count, verification bar, forbidden paths, escalation policy). For human rulings, retain original wording and attribution per [Claims about human decisions](../../why/references/epistemics.md#claims-about-human-decisions); label agent interpretations and missing originals. Copies are not new decisions. Paste it verbatim into every spawn and every resume; directives decay across resumes, and each dropped one costs a human turn. When you catch yourself restating an instruction, append the line before you act (principle-encode-lessons-in-structure).
 - `overview.md` is the durable PR and issue DB. Append; never rewrite wholesale per event.

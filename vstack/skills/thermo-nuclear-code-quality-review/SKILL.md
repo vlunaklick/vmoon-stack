@@ -3,7 +3,7 @@ name: thermo-nuclear-code-quality-review
 description: Run an extremely strict maintainability review for abstraction quality, giant files, and spaghetti-condition growth. Use for a thermo-nuclear code quality review, thermonuclear review, deep code quality audit, or especially harsh maintainability review.
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Thermo-Nuclear Code Quality Review

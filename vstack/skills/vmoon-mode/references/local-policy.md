@@ -12,7 +12,7 @@ Use tools actually exposed by the host. On Codex read [codex-tools.md](codex-too
 
 ## Project state outside repositories
 
-Before writing notes, run `node <this-skill>/scripts/project-state.mjs <project-directory>`. Use its absolute output as STATE_DIR. The default storage root is `~/valen/ai/projects`; Vstack does not infer it from the collection's installation directory. `VSTACK_STATE_HOME` can explicitly override it with an absolute path outside the project and collection. If Node is unavailable, keep notes in the conversation and disclose that persistence is unavailable.
+Before writing notes, run `node <this-skill>/scripts/project-state.mjs <project-directory>`. Use its absolute output as STATE_DIR. The default storage root is `~/valen/ai/projects`; Vmoon mode does not infer it from the collection's installation directory. `VSTACK_STATE_HOME` can explicitly override it with an absolute path outside the project and collection. If Node is unavailable, keep notes in the conversation and disclose that persistence is unavailable.
 
 Write every new plan, todo, decision trail, research report, checkpoint, generated verification skill and workflow store under STATE_DIR. Use task-specific subdirectories to separate concurrent tasks. Locate verification instructions at STATE_DIR/skills/verify/SKILL.md and read them explicitly; host discovery is not required. Pass STATE_DIR paths explicitly to helper CLIs, including orch's store argument. Code and relevant product tests may still be changed in the target repository when the task calls for it.
 
@@ -22,7 +22,7 @@ On resume, use the external checkpoint helper and read the task notes before pro
 
 ## Scope and distribution
 
-This is a personal skills collection, with no plugin registration, upstream synchronization or automatic routing hook. Invoke vstack explicitly. Configure per-task models with setup-vstack. These files may evolve through explicit reflect and automate-me requests; no upstream maintenance is required.
+This is a personal skills collection, with no plugin registration, upstream synchronization or automatic routing hook. Invoke vmoon-mode explicitly. Configure per-task models with setup-vstack. These files may evolve through explicit reflect and automate-me requests; no upstream maintenance is required.
 
 Invoking reflect requests improvement proposals. If the request includes applying improvements, apply relevant generic edits to the canonical skills after resolving their installation symlinks. Otherwise present concrete proposed edits before applying them. Automate-me creates or updates the user's working conventions when requested. Keep project/company-specific lessons under STATE_DIR; never embed company code, names, tickets or transcripts in portable skills. Do not post backlog issues automatically. Ordinary coding tasks can suggest reflection, but should not silently rewrite skills.
 

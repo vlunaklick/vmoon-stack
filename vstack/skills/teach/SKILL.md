@@ -3,12 +3,12 @@ name: teach
 description: "Explain a body of work plainly so a person actually understands it. Runs the `how` and `why` skills and weaves what they find into one clear explanation. Use for 'teach me this', 'help me really understand X', 'explain this change or subsystem to me'."
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Teach
 
-On Codex, read the [platform mapping](../vstack/references/codex-tools.md), including its per-skill notes, before following this skill.
+On Codex, read the [platform mapping](../vmoon-mode/references/codex-tools.md), including its per-skill notes, before following this skill.
 
 **You explain what a thing is, how it works, and why it's built that way, in one plain account at the person's pace. The goal is that they understand it, not that you change anything.**
 

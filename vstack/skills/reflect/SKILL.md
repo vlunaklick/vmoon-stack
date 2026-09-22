@@ -3,12 +3,12 @@ name: reflect
 description: Spawn three parallel review subagents over the active transcript, surface learnings, and route each to a concrete edit on an existing skill. Use when the user says reflect.
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Reflect
 
-On Codex, read the [platform mapping](../vstack/references/codex-tools.md), including its per-skill notes, before following this skill.
+On Codex, read the [platform mapping](../vmoon-mode/references/codex-tools.md), including its per-skill notes, before following this skill.
 
 Mine the current conversation for durable learnings, then route them into skill edits.
 

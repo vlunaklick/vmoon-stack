@@ -31,11 +31,11 @@ Without it, `spawn_agent` is unavailable and the fan-out skills (`interrogate`, 
 
 ## Subagent policy
 
-vstack's Subagents section sets Claude-specific defaults (`subagent_type: "vstack-agent"`, `run_in_background: true`). On Codex:
+vmoon-mode's Subagents section sets Claude-specific defaults (`subagent_type: "vstack-agent"`, `run_in_background: true`). On Codex:
 
-- There is no `vstack-agent` subagent type. Route an ad-hoc subagent through vstack's style by dispatching a `spawn_agent` whose instructions tell it to read the `vstack` skill in full first.
+- There is no `vstack-agent` subagent type. Route an ad-hoc subagent through vmoon-mode's style by dispatching a `spawn_agent` whose instructions tell it to read the `vmoon-mode` skill in full first.
 - `spawn_agent` calls already run concurrently with your turn, so `run_in_background: true` has no separate flag. Issue the dispatch and continue.
-- There is no `comment-sicko` subagent type either. The **no-comments** skill spawns it on Claude Code; on Codex dispatch a `spawn_agent` whose instructions tell it to read `vstack/references/agents/comment-sicko.md` in full first.
+- There is no `comment-sicko` subagent type either. The **no-comments** skill spawns it on Claude Code; on Codex dispatch a `spawn_agent` whose instructions tell it to read `vmoon-mode/references/agents/comment-sicko.md` in full first.
 - Claude Code runs every subagent on this machine, so the **swarm** skill's workers and the fan-out playbooks (`orchestrate`, `autopilot-full`, `autopilot-stack`) isolate writers with worktrees. The same holds on Codex.
 - Keep the rest of the policy unchanged. Pass file pointers not inlined context, give each worker its own worktree or branch when they write, review every subagent's diff yourself.
 
@@ -45,7 +45,7 @@ Read the codex section of ~/.config/vstack/models.json and resolve each stage th
 
 ## Invocation
 
-This skills collection has no routing hook. Invoke vstack explicitly. Do not add project instructions.
+This skills collection has no routing hook. Invoke vmoon-mode explicitly. Do not add project instructions.
 
 ## Driver and bundled skills pstack references
 
@@ -75,7 +75,7 @@ Affected skill entry points point here. Most skills need only the tables above. 
 
 ## Vendored scripts
 
-`vstack/skills/vstack/scripts/` ships the `watch-pr` PR watcher, the `orch` store CLI, and `worktree-audit.sh`. The `watch-pr/ship-pr` command owns pending-merge inspection and cancellation; `resume.mjs` owns the shared checkpoint locator described in [Resume storage](resume-storage.md). These scripts use Node.js, npm, and bash and run the same on Codex; invoke them through `shell`. They need Node.js 20+, npm, `gh`, (for stack work) `gt`, and (for `worktree-audit.sh`) `jq` and `rg`. `worktree-audit.sh` reads Claude Code transcripts under `~/.claude/projects/`; point it at your runtime's transcript directory instead when you run it elsewhere.
+`vstack/skills/vmoon-mode/scripts/` ships the `watch-pr` PR watcher, the `orch` store CLI, and `worktree-audit.sh`. The `watch-pr/ship-pr` command owns pending-merge inspection and cancellation; `resume.mjs` owns the shared checkpoint locator described in [Resume storage](resume-storage.md). These scripts use Node.js, npm, and bash and run the same on Codex; invoke them through `shell`. They need Node.js 20+, npm, `gh`, (for stack work) `gt`, and (for `worktree-audit.sh`) `jq` and `rg`. `worktree-audit.sh` reads Claude Code transcripts under `~/.claude/projects/`; point it at your runtime's transcript directory instead when you run it elsewhere.
 
 ## Instructions file
 

@@ -1,11 +1,11 @@
 ---
 name: setup-vstack
-description: Configure vstack models by task for Claude Code or Codex. Use for initial setup, model preferences, review panels, or changing which available models handle each role.
+description: Configure vmoon-mode models by task for Claude Code or Codex. Use for initial setup, model preferences, review panels, or changing which available models handle each role.
 ---
 
 # Setup vstack
 
-Read [local policy](../vstack/references/local-policy.md). This skill is explicitly authorized to edit the local model configuration when invoked to configure it.
+Read [local policy](../vmoon-mode/references/local-policy.md). This skill is explicitly authorized to edit the local model configuration when invoked to configure it.
 
 1. Identify the current host: `claude` or `codex`. Inspect the actual delegation tool schema, host configuration and available model list. Do not assume a model exists from a static name, subscription or another machine. If no list is exposed, ask the user for the enabled models. Distinguish selectable parent models from models the host can select for delegates.
 2. Read `~/.config/vstack/models.json` if present. Preserve the other host and existing choices. A malformed file must be reported, not silently replaced.

@@ -4,7 +4,7 @@ description: "Apply when product, UX, or feature-scope tradeoffs come up. Choose
 user-invocable: false
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Experience First

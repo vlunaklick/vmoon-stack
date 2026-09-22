@@ -3,12 +3,12 @@ name: swarm
 description: "Fan out N parallel workers, drain them, and return one report. Use for /swarm, 'swarm this', or parallel coverage, races, gauntlets, and exploration."
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Swarm
 
-On Codex, read the [platform mapping](../vstack/references/codex-tools.md), including its per-skill notes, before following this skill.
+On Codex, read the [platform mapping](../vmoon-mode/references/codex-tools.md), including its per-skill notes, before following this skill.
 
 Fan out N parallel workers. They may cover separate slices, race the same brief, or mix both. The parent waits, aggregates, and returns one report.
 

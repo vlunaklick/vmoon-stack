@@ -1,12 +1,12 @@
 ---
-name: vstack
-description: Vstack's pstack-based workflow for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /vstack, or requests to work in this style.
+name: vmoon-mode
+description: Vmoon mode's pstack-based workflow for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for vmoon mode, /vmoon-mode, potato mode, poteto, or requests to work in this style.
 ---
 
 Read and apply the [local runtime policy](references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
-# Vstack
+# Vmoon mode
 
 ## Platform Adaptation
 
@@ -94,7 +94,7 @@ Follow the local runtime policy and the user's authorized scope. Continue revers
 
 ## Subagents
 
-**Use `subagent_type: "vstack-agent"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The installer links this agent into Claude Code’s user agent directory. On Codex use the available agent tool and ask it to read this skill. `/vstack` and `vstack-agent` route through the same wrapper. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) set their own `subagent_type` for diverse-model review; respect what the skill prescribes, don't override to `vstack-agent`.
+**Use `subagent_type: "vstack-agent"` for any subagent you spawn inside a playbook step** (code-writing delegates, ad-hoc helpers). The installer links this agent into Claude Code’s user agent directory. On Codex use the available agent tool and ask it to read this skill. `/vmoon-mode` and `vstack-agent` route through the same wrapper. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) set their own `subagent_type` for diverse-model review; respect what the skill prescribes, don't override to `vstack-agent`.
 
 **Defaults for delegation.** Use the available native agent tool. Resolve each stage's model through setup-vstack and the local policy. Configured models apply to delegates only; the parent remains on the selected session model. Give workers explicit scope, file pointers, the local policy and STATE_DIR. Separate concurrent writers with worktrees. Use independent reviews where useful and report the actual model diversity.
 

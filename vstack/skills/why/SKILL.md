@@ -3,12 +3,12 @@ name: why
 description: "Use for 'why does X work this way', 'why we picked Y', design rationale, regressions, postmortems, or data-backed thresholds. Discovers available MCPs and queries each evidence category (source control, issue tracker, long-form docs, real-time chat, infrastructure observability, error tracking, product analytics warehouse) in parallel, then returns a cited read on decisions and tradeoffs. Use how for runtime behavior."
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Why
 
-On Codex, read the [platform mapping](../vstack/references/codex-tools.md), including its per-skill notes, before following this skill.
+On Codex, read the [platform mapping](../vmoon-mode/references/codex-tools.md), including its per-skill notes, before following this skill.
 
 Investigate the motivation and intent behind code.
 

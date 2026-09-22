@@ -3,7 +3,7 @@ name: what-did-i-get-done
 description: Summarize authored commits over a user-specified time period into a concise update
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # What did I get done

@@ -3,12 +3,12 @@ name: automate-me
 description: "Use for \"automate me\", \"create/update/refresh my -mode skill\", \"turn/capture my preferences or working style into a skill\", or wanting agents to follow how the user works. Drafts or revises a personal -mode skill via plugin-dev:skill-development + unslop, optionally pulling fresh evidence from recent transcripts."
 ---
 
-Read and apply the [local runtime policy](../vstack/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
+Read and apply the [local runtime policy](../vmoon-mode/references/local-policy.md) before this workflow. It governs models, tools, external project storage and authorization.
 
 
 # Automate me
 
-On Codex, read the [platform mapping](../vstack/references/codex-tools.md), including its per-skill notes, before following this skill.
+On Codex, read the [platform mapping](../vmoon-mode/references/codex-tools.md), including its per-skill notes, before following this skill.
 
 A guided flow for turning the user's working conventions into a skill agents will follow. The output is one `-mode` skill tailored to them (e.g. `jay-mode`, `priya-mode`).
 
@@ -18,7 +18,7 @@ This skill orchestrates three others: an inline mining pass (see step 1), the `p
 
 ### 0. Check for an existing skill
 
-Prefer the canonical vstack skill reached through the installed symlink. Save generic working-style improvements there when requested; keep company-specific conventions in STATE_DIR. On Codex use the current conversation or an available scoped transcript, not Claude transcript paths.
+Prefer the canonical vmoon-mode skill reached through the installed symlink. Save generic working-style improvements there when requested; keep company-specific conventions in STATE_DIR. On Codex use the current conversation or an available scoped transcript, not Claude transcript paths.
 
 Look recursively for `.claude/skills/**/*-mode/SKILL.md` and `~/.claude/skills/*-mode/SKILL.md` matching the user's handle. Mode skills can live in a personal category directory (`.claude/skills/<handle>/`), not only at the top level. If one exists, confirm intent with `AskUserQuestion` (unless they already said "update my skill" or similar):
 
@@ -66,7 +66,7 @@ Group the combined signals into sections. Common ones (use only what applies):
 - **Process**: git worktrees, commits, PRs, review/merge tooling.
 - **Skills**: skill-authoring habits, fix-the-skill-first, proposing new skills.
 
-The **vstack** skill shows the shape. Read it for granularity. Don't copy its content; the user's rules are not the same as vstack's.
+The **vmoon-mode** skill shows the shape. Read it for granularity. Don't copy its content; the user's rules are not the same as vmoon-mode's.
 
 ### 4. Draft the skill
 

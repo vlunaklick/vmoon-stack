@@ -1,6 +1,6 @@
 # Resume storage
 
-Pause and pickup share one project locator. The `resume.mjs` command under `vstack/skills/vstack/scripts/` resolves the project's Git common directory and uses that identity to store checkpoints under `STATE_DIR/resume/` outside the repository. `latest.json` points to the latest complete checkpoint and records the worktree, branch, timestamp, note, and requested artifacts with content hashes.
+Pause and pickup share one project locator. The `resume.mjs` command under `vstack/skills/vmoon-mode/scripts/` resolves the project's Git common directory and uses that identity to store checkpoints under `STATE_DIR/resume/` outside the repository. `latest.json` points to the latest complete checkpoint and records the worktree, branch, timestamp, note, and requested artifacts with content hashes.
 
 Claude Code, Codex, and other runtimes use this same command and location. Runtime-specific home directories and transcript encodings do not affect lookup. Git worktrees of the same repository share the locator, and The checkpoint directory is outside Git and must never be committed. The locator is derived from the canonical Git common-directory path, so worktrees share it. It does not survive deleting or recloning the repository; transfer the complete checkpoint to durable storage before that happens and give the resumed session its locator.
 
